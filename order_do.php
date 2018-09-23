@@ -28,12 +28,12 @@
 							      $seat_num = $_POST['seat_number'];
 							 ?>
 
-							<h3>お客様ID</h3>
+							<!-- <h3>お客様ID</h3>
 							<p></p><font size="10" color="#ff0000"><?php
 							$recordSet = mysqli_query($db, 'SELECT MAX(customer_id) + 1 FROM history');
 							$customer_id = mysqli_fetch_assoc($recordSet);
 							echo htmlspecialchars($customer_id['MAX(customer_id) + 1'], ENT_QUOTES);
-							?></font><p></p>
+							?></font><p></p>-->
 
 							<h3>席番号</h3>
 							<p></p><font size="10" color="#ff0000"><?php echo htmlspecialchars($seat_num, ENT_QUOTES); ?></font><p></p>

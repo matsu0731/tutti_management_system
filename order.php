@@ -28,15 +28,16 @@
 
 							<form action="order_do.php" method="post">
 
-							<h3>お客様ID</h3>
+							<!-- <h3>お客様ID</h3>
 							<p></p>
-							 <p><font size="10" color="#ff0000">
+							 <p><font size="8">
 							<?php
 							$recordSet = mysqli_query($db, 'SELECT MAX(customer_id) + 1 FROM history');
 							$table = mysqli_fetch_assoc($recordSet);
 							print(htmlspecialchars($table['MAX(customer_id) + 1'], ENT_QUOTES));
 							?>
-						</font></p>
+						</font></p>-->
+						
 							<h3>席番号</h3>
 
 							<select name="seat_number" id="seat_number">
