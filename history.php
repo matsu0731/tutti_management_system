@@ -22,6 +22,20 @@
 
 							<?php
 							require('dbconnect.php');
+							$page = $_REQUEST['page'];
+							if ($page == '') {
+								$page = 1;
+							}
+							$page = max($page, 1);
+
+							//最終ページを取得
+							$sql = 'SELECT COUNT(*) AS cnt FROM history';
+							$recordSet = mysqli_query($db, $sql);
+							$table = mysqli_fetch_assoc($recordSet);
+							$maxPage = ceil($table['cnt'] / 60);
+							$page = min($page, $maxPage);
+
+							$start = ($page - 1)* 10;
 							$recordSet = mysqli_query($db, 'SELECT order_id, customer_id, seat_num,
 							                                max(CASE WHEN item_id = 1 THEN quantity ELSE 0 END) AS "coffee",
 							                                max(CASE WHEN item_id = 2 THEN quantity ELSE 0 END) AS "tea",
@@ -32,8 +46,8 @@
 							                                created, modified
 							                                FROM history
 							                                GROUP BY order_id DESC
+																							LIMIT ' . $start . ',10
 							                                ');
-							$page = $_REQUEST['page'];
 							?>
 
 							<h2>注文履歴</h2>
@@ -77,6 +91,31 @@
 							}
 							?>
 							</table>
+
+							<ul class="paging">
+								<?php if ($page > 1) {
+								 ?>
+								<li><a href="history.php?page=<?php print($page - 1); ?>">前ページ</a></li>
+								<?php
+							} else {
+								?>
+								<li>前ページ</li>
+								<?php
+								}
+								 ?>
+								<?php
+								if ($page < $maxPage) {
+									?>
+								<li><a href="history.php?page=<?php print($page + 1); ?>">次ページ</a></li>
+								<?php
+							} else {
+								?>
+								<li>次ページ</li>
+								<?php
+							}
+								 ?>
+							</ul>
+
 						</article>
 
 					</div>
