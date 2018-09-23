@@ -80,8 +80,8 @@ form{
                             }
                             $record_itm->free();
                             if($_POST["del"] != ''){
-                                print($_POST["item_name"]);
-                                print(array_search($_POST["item_name"], $items));
+                                //print($_POST["item_name"]);
+                                //print(array_search($_POST["item_name"], $items));
                                 $id = array_search($_POST["item_name"], $items);
                                 switch($_POST["del"]){
                                     case "done":$update = $db->prepare('UPDATE history SET delivery_status=1 WHERE order_id = ? AND item_id = ?');
@@ -136,7 +136,7 @@ form{
                                 $record_his = $db->prepare('SELECT item_id, quantity, delivery_status, cooking_status FROM history WHERE order_id=?');
                                 $record_his->bind_param("i", $order_id[$i]);
                                 $record_his->execute();
-                                $record_his->bind_result($item_id, $quantity, $d_status);
+                                $record_his->bind_result($item_id, $quantity, $d_status, $c_status);
                                 while($record_his->fetch()){
                                     if($quantity!=0){
                                         /*switch($c_status){
@@ -158,13 +158,13 @@ form{
                                 }
                                 $record_his->close();
                             }
-                            //print_r($order);
+                            //print_r($array);
                             print("<h3>お客様番号</h3>");
                             print("<h2>" . $customer_id . "</h2>");
                             //席番号追加
                             ?>
                             <form action="added_order.php" method="post">
-                            <input type="hidden" name="customer_id" value="<?php print(htmlspecialchars($customed_id)); ?>" >
+                            <input type="hidden" name="customer_id" value="<?php print(htmlspecialchars($customer_id)); ?>" >
                             <input type="submit" value="追加注文">
                             </form>
                             <?php
@@ -185,7 +185,7 @@ form{
                                 <td><?php print(htmlspecialchars($order[$i][$j][1])); ?></td>
                                 <td><?php print(htmlspecialchars($order[$i][$j][2])); ?></td>
                                 <td>
-                                <?php 
+                                <?php
                                 if($order[$i][$j][2]=="未配達"){
                                     print("<form action=\"\" method=\"post\">
                                     <input type=\"hidden\" name=\"del\" value=\"done\" >
