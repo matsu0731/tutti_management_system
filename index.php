@@ -28,7 +28,7 @@
 								<h2><a href="#">Tutti Management System</a></h2>
 							</header> -->
 
-							<h2>Tutti Management System</h2>
+							<h2>aTutti Management System</h2>
 							<span id="view_clock"></span>
 
 							<script type="text/javascript">
