@@ -9,7 +9,7 @@
 <nav id="nav">
   <ul>
     <li><a href="./order.php">新規注文</a></li>
-    <li><a href="#">追加注文</a></li>
+    <li><a href="./order_add.php">追加注文</a></li>
     <li><a href="./orderviewer.php">新着注文一覧</a></li>
     <li><a href="./waiter.php">席情報確認</a></li>
     <li><a href="./payment.php">精算</a></li>
