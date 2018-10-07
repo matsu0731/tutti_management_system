@@ -57,7 +57,7 @@
 							require('dbconnect.php');
 							?>
 
-							<h2>追加注文・配達状況管理</h2>
+							<h2>配達状況</h2>
 
 							<?php
                             $status_data = array();

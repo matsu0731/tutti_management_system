@@ -7,16 +7,33 @@
 
 <!-- Nav -->
 <nav id="nav">
+  <header>
+    <h2>レジ</h2>
+  </header>
   <ul>
     <li><a href="./order.php">新規注文</a></li>
-    <li><a href="#">追加注文</a></li>
-    <li><a href="./orderviewer.php">新着注文一覧</a></li>
-    <li><a href="./waiter.php">席情報確認</a></li>
     <li><a href="./payment.php">精算</a></li>
-    <li><a href="./history.php">注文履歴閲覧・修正</a></li>
   </ul>
 </nav>
 
+<nav id="nav">
+  <header>
+    <h2>お客様管理</h2>
+  </header>
+  <ul>
+    <li><a href="./orderviewer.php">新着注文一覧</a></li>
+    <li><a href="./delivery_status.php">配達状況</a></li>
+    <li><a href="./order_add.php">追加注文</a></li>
+  </ul>
+</nav>
+<nav id="nav">
+  <header>
+    <h2>運営管理</h2>
+  </header>
+  <ul>
+    <li><a href="./history.php">注文履歴</a></li>
+  </ul>
+</nav>
 <!-- Search
 <section class="box search">
   <form method="post" action="#">
