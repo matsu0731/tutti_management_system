@@ -68,9 +68,8 @@
 							    <th scope="col">修正</th>
 							  </tr>
 							<?php
-
 							while ($table = mysqli_fetch_assoc($recordSet)){
-
+								if( $table['order_id']!=0) {
 							?>
 							  <tr>
 							    <td><?php print(htmlspecialchars($table['order_id'])); ?></td>
@@ -87,7 +86,7 @@
 							    <td><a href="edit.php?order_id=<?php print(htmlspecialchars($table['order_id'])); ?>">修正</a></td>
 							  </tr>
 							<?php
-
+								}
 							}
 							?>
 							</table>
