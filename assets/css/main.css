@@ -2572,6 +2572,11 @@ input, select, textarea {
 			.box.post h2 {
 				font-size: 2em;
 				line-height: 1.25em;
+				padding: 0 0 0.5em 0;
+			}
+
+			.box.post h3 {
+				padding: 1em 0 0 0;
 			}
 
 			.box.post header {
@@ -2684,6 +2689,11 @@ input, select, textarea {
 			.box.post h2 {
 				font-size: 2em;
 				line-height: 1.25em;
+				padding: 0 0 0.5em 0;
+			}
+
+			.box.post h3 {
+				padding: 1em 0 0 0;
 			}
 
 			.box.post header {
@@ -2833,6 +2843,10 @@ input, select, textarea {
 			.box.post {
 				padding-bottom: 5em;
 				margin-bottom: 4em;
+			}
+
+			.box.post h3 {
+				padding: 1em 0 0 0;
 			}
 
 				.box.post header > p {
