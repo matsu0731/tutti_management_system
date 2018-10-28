@@ -22,11 +22,32 @@
 
 							<?php
 							require('dbconnect.php');
+
+							session_start();
+
+							if (!empty($_POST)) {
+								//エラー項目の確認
+								$item = $_POST['item'];
+								if ($item[0] == 0 && $item[1] == 0 && $item[2] == 0 && $item[3] == 0 && $item[4] == 0 && $item[5] == 0) {
+									$error['item'] = 'zero';
+								}
+
+								if ($_POST['seat_number'] == '') {
+									$error['seat'] = 'seat';
+								}
+
+								if (empty($error)) {
+									$_SESSION['order'] = $_POST;
+									header('Location: order_do.php');
+									exit();
+								}
+
+							}
 							?>
 
 							<h2>新規注文</h2>
 
-							<form action="order_do.php" method="post">
+							<form action="" method="post">
 
 							<!-- <h3>お客様ID</h3>
 							<p></p>
@@ -37,9 +58,17 @@
 							print(htmlspecialchars($table['MAX(customer_id) + 1'], ENT_QUOTES));
 							?>
 						</font></p>-->
-						
-							<h3>席番号</h3>
+						<!--エラー表示-->
+							<?php if ($error['seat'] == 'seat'): ?>
+								<p class="error">*満席です</p>
+							<?php endif; ?>
 
+							<?php if ($error['item'] == 'zero'): ?>
+								<p class="error">*少なくとも一つ以上商品を注文してください</p>
+							<?php endif; ?>
+
+
+							<h3>席番号</h3>
 							<select name="seat_number" id="seat_number">
 							<?php
 
@@ -52,6 +81,8 @@
 							  print('<option value="' . $table['seat_number'] . '">' . $table['seat_number'] . '</option>');
 							}
 							?></select>
+
+
 							<p></p>
 
 							<h3>ドリンク</h3>
@@ -108,7 +139,7 @@
 							  ?></select></li>
 							</li>
 							</ul>
-							<p></p>
+
 							<input type="submit" value="新規注文" />
 							</form>
 						</article>

@@ -9,6 +9,7 @@
 		<title>Tutti Management System</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta http-equiv="refresh" content="3;URL=edit.php">
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
@@ -55,16 +56,29 @@
 							</ul>
 
 							<?php
+							#変更前の個数を取得
+							$sql_original = sprintf('SELECT quantity FROM history WHERE order_id = %d',
+							mysqli_real_escape_string($db, $order_id)
+							);
+							$Quantity = mysqli_query($db, $sql_original);
 
 							#注文内容のDB書き込み
 							for ($i=0; $i<=5; $i++){
+
 							  $sql = sprintf('UPDATE history SET quantity = %d, modified = NOW() WHERE order_id = %d AND item_id = %d',
 							  mysqli_real_escape_string($db, $item[$i]),
 							  mysqli_real_escape_string($db, $order_id),
 							  mysqli_real_escape_string($db, $i+1)
 							  );
 							  mysqli_query($db, $sql) or die(mysqli_error($db));
-							}
+
+								#stockの変更
+								$table_quantity = mysqli_fetch_assoc($Quantity);
+								$diff = $item[$i]-$table_quantity['quantity'];
+								$sql_stock = sprintf('UPDATE items SET stock = stock + %d WHERE item_id=%d', $diff, $i+1);
+								mysqli_query($db, $sql_stock) or die (mysqli_error($db));
+
+								}
 
 							?>
 						</article>

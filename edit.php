@@ -25,12 +25,12 @@
 
 							$order_id = $_REQUEST['order_id'];
 							$sql_pivot = sprintf('SELECT order_id, customer_id, seat_num,
-							                                max(CASE WHEN item_id = 1 THEN quantity ELSE 0 END) AS "coffee",
-							                                max(CASE WHEN item_id = 2 THEN quantity ELSE 0 END) AS "tea",
-							                                max(CASE WHEN item_id = 3 THEN quantity ELSE 0 END) AS "orange",
-							                                max(CASE WHEN item_id = 4 THEN quantity ELSE 0 END) AS "choco",
-							                                max(CASE WHEN item_id = 5 THEN quantity ELSE 0 END) AS "apple",
-							                                max(CASE WHEN item_id = 6 THEN quantity ELSE 0 END) AS "fruit",
+							                                max(CASE WHEN item_id = 1 THEN quantity ELSE 0 END) AS "0",
+							                                max(CASE WHEN item_id = 2 THEN quantity ELSE 0 END) AS "1",
+							                                max(CASE WHEN item_id = 3 THEN quantity ELSE 0 END) AS "2",
+							                                max(CASE WHEN item_id = 4 THEN quantity ELSE 0 END) AS "3",
+							                                max(CASE WHEN item_id = 5 THEN quantity ELSE 0 END) AS "4",
+							                                max(CASE WHEN item_id = 6 THEN quantity ELSE 0 END) AS "5",
 							                                created, modified
 							                                FROM history
 							                                WHERE order_id = "%d"
@@ -63,7 +63,7 @@
 							  <select name="item[]" id="item[]">
 							    <?php
 							    for ($i = 0; $i<=5; $i++) {
-							      if ($i == $data['coffee']) {
+							      if ($i == $data['0']) {
 							        print('<option value="' . $i . '" selected>' . $i . '個</option>');
 							      } else {
 							        print('<option value="' . $i . '">' . $i . '個</option>');
@@ -75,7 +75,7 @@
 							  <select name="item[]" id="item[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['tea']) {
+							    if ($i == $data['1']) {
 							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
 							    } else {
 							      print('<option value="' . $i . '">' . $i . '個</option>');
@@ -87,7 +87,7 @@
 							  <select name="item[]" id="item[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['orange']) {
+							    if ($i == $data['2']) {
 							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
 							    } else {
 							      print('<option value="' . $i . '">' . $i . '個</option>');
@@ -103,7 +103,7 @@
 							  <select name="item[]" id="item[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['choco']) {
+							    if ($i == $data['3']) {
 							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
 							    } else {
 							      print('<option value="' . $i . '">' . $i . '個</option>');
@@ -114,7 +114,7 @@
 							  <select name="item[]" id="item[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['apple']) {
+							    if ($i == $data['4']) {
 							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
 							    } else {
 							      print('<option value="' . $i . '">' . $i . '個</option>');
@@ -126,7 +126,7 @@
 							  <select name="item[]" id="item[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['fruit']) {
+							    if ($i == $data['5']) {
 							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
 							    } else {
 							      print('<option value="' . $i . '">' . $i . '個</option>');

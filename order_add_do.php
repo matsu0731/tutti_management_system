@@ -9,6 +9,7 @@
 		<title>Tutti Management System</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta http-equiv="refresh" content="3;URL=order_add.php">
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
@@ -20,21 +21,31 @@
 					<!-- Post -->
 						<article class="box post post-excerpt">
 
-							<?php require('dbconnect.php'); ?>
+							<?php require('dbconnect.php');
 
-							<h2>注文完了</h2>
+							session_start();
 
-							<?php $item = $_POST['item'];
-							      $seat_num = $_POST['seat_number'];
+							if (!isset($_SESSION['order_add'])) {
+								header('Location: order_add.php');
+								exit();
+							}
+
+							?>
+
+							<h2>追加注文完了</h2>
+
+							<?php $item = $_SESSION['order_add']['item'];
+							      $seat_num = $_SESSION['order_add']['seat_number'];
 							 ?>
 
 							<h3>お客様ID</h3>
-							<p></p><font size="10" color="#ff0000"><?php
-              $recordSet = mysqli_query($db, 'SELECT customer_id FROM seat_status WHERE seat_number = ' . $seat_num);
+							<?php
+							$sql_customer = sprintf('SELECT customer_id FROM seat_status WHERE seat_number = %d', $seat_num);
+              $recordSet = mysqli_query($db, $sql_customer);
               $table = mysqli_fetch_assoc($recordSet);
               $customer_id = $table['customer_id'];
 							echo htmlspecialchars($customer_id, ENT_QUOTES);
-							?></font><p></p>
+							?>
 
 							<h3>席番号</h3>
 							<p></p><font size="10" color="#ff0000"><?php echo htmlspecialchars($seat_num, ENT_QUOTES); ?></font><p></p>
@@ -60,7 +71,7 @@
 							$order_id= mysqli_fetch_assoc($recordSet);
 
 							#座席情報更新
-							$sql = sprintf('UPDATE seat_status SET status = 1, customer_id = "%d" WHERE seat_number = "%d"', $customer_id['MAX(customer_id) + 1'], $seat_num);
+							$sql = sprintf('UPDATE seat_status SET status = 1, customer_id = "%d" WHERE seat_number = "%d"', $customer_id, $seat_num);
 							mysqli_query($db, $sql) or die(mysqli_error($db));
 
 							#注文内容のDB書き込み
@@ -73,6 +84,12 @@
 							  mysqli_real_escape_string($db, $item[$i - 1])
 							  );
 							  mysqli_query($db, $sql) or die(mysqli_error($db));
+							}
+
+							#stockの変更
+							$sql_stock = sprintf('UPDATE items SET stock = stock - %d WHERE item_id=%d', $item[$i-1], $i);
+							if ($item[$i-1] > 0) {
+								mysqli_query($db, $sql_stock) or die (mysqli_error($db));
 							}
 
 							?>

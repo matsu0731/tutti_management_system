@@ -9,6 +9,7 @@
 		<title>Tutti Management System</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<meta http-equiv="refresh" content="3;URL=order.php">
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
 	<body class="is-preload">
@@ -24,16 +25,24 @@
 
 							<h2>注文完了</h2>
 
-							<?php $item = $_POST['item'];
-							      $seat_num = $_POST['seat_number'];
+							<?php
+							session_start();
+
+							if (!isset($_SESSION['order'])) {
+								header('Location: order.php');
+								exit();
+							}
+
+							$item = $_SESSION['order']['item'];
+							$seat_num = $_SESSION['order']['seat_number'];
 							 ?>
 
-							<!-- <h3>お客様ID</h3>
-							<p></p><font size="10" color="#ff0000"><?php
+							<h3>お客様ID</h3>
+							<?php
 							$recordSet = mysqli_query($db, 'SELECT MAX(customer_id) + 1 FROM history');
 							$customer_id = mysqli_fetch_assoc($recordSet);
 							echo htmlspecialchars($customer_id['MAX(customer_id) + 1'], ENT_QUOTES);
-							?></font><p></p>-->
+							?>
 
 							<h3>席番号</h3>
 							<p></p><font size="10" color="#ff0000"><?php echo htmlspecialchars($seat_num, ENT_QUOTES); ?></font><p></p>
@@ -64,6 +73,7 @@
 
 							#注文内容のDB書き込み
 							for ($i=1; $i<=6; $i++){
+								#historyへの書き込み
 							  $sql = sprintf('INSERT INTO history SET order_id = "%d", customer_id = "%d", seat_num = "%d", item_id = "%d", quantity="%d", created= NOW() ',
 							  mysqli_real_escape_string($db, $order_id['MAX(order_id) + 1']),
 							  mysqli_real_escape_string($db, $customer_id['MAX(customer_id) + 1']),
@@ -72,7 +82,16 @@
 							  mysqli_real_escape_string($db, $item[$i - 1])
 							  );
 							  mysqli_query($db, $sql) or die(mysqli_error($db));
+
+								#stockの変更
+								$sql_stock = sprintf('UPDATE items SET stock = stock - %d WHERE item_id=%d', $item[$i-1], $i);
+								if ($item[$i-1] > 0) {
+									mysqli_query($db, $sql_stock) or die (mysqli_error($db));
+								}
+
 							}
+
+
 
 							?>
 						</article>
