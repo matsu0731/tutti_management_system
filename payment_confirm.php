@@ -22,28 +22,42 @@
 
 							<?php
 							require('dbconnect.php');
+
+							session_start();
+
+							if (!isset($_SESSION['payment'])) {
+								header('Location: payment.php');
+								exit();
+							}
+
+							if (!empty($_POST)) {
+								if (empty($error)) {
+									$_SESSION['payment_do'] = $_POST;
+									unset($_SESSION['payment']);
+									header('Location: payment_do.php');
+									exit();
+								}
+							}
 							?>
 
 							<h2>精算内容確認</h2>
 
-							<form action="payment_do.php" method="post">
+							<form action="" method="post">
 
 							<h3>お客様ID</h3>
-							<p></p>
-							<p><font size="10" color="#ff0000"><?php
-							$sql = sprintf('SELECT customer_id FROM seat_status WHERE seat_number = "%d" ', $_POST['seat_number']);
+							<?php
+							$sql = sprintf('SELECT customer_id FROM seat_status WHERE seat_number = "%d" ', $_SESSION['payment']['seat_number']);
 							$recordSet = mysqli_query($db, $sql);
 							$table = mysqli_fetch_assoc($recordSet);
 							echo htmlspecialchars($table['customer_id']);
 							?>
-						</font></p>
 
 							<input type="hidden" name="customer_id" value="<?php echo htmlspecialchars($table['customer_id']); ?>" >
 
 							<h3>席番号</h3>
 							<p></p>
-							<p><font size="10" color="#ff0000"><?php echo htmlspecialchars($_POST['seat_number']); ?></font></p>
-							<input type="hidden" name="seat_number" value="<?php echo htmlspecialchars($_POST['seat_number']); ?>" >
+							<p><font size="10" color="#ff0000"><?php echo htmlspecialchars($_SESSION['payment']['seat_number']); ?></font></p>
+							<input type="hidden" name="seat_number" value="<?php echo htmlspecialchars($_SESSION['payment']['seat_number']); ?>" >
 
 							<h3>注文内容</h3>
 							<table width="100%">

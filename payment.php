@@ -22,12 +22,32 @@
 
 							<?php
 							require('dbconnect.php');
+
+							session_start();
+							if (!empty($_POST)) {
+								//エラー項目の確認
+								if ($_POST['seat_number'] == '') {
+									$error['seat'] = 'seat';
+								}
+
+								if ($_POST['dummy'] == '') {
+									$error['seat'] = 'seat';
+								}
+
+								if (empty($error)) {
+									$_SESSION['payment'] = $_POST;
+									header('Location: payment_confirm.php');
+									exit();
+								}
+							}
 							?>
 
 							<h2>精算</h2>
-
-							<form action="payment_confirm.php" method="post">
-
+							<form action="" method="post">
+							<!--エラー表示-->
+								<?php if ($error['seat'] == 'seat'): ?>
+									<p class="error">*席番号が指定されていません</p>
+								<?php endif; ?>
 
 							<p>席番号を選択してください</p>
 
@@ -45,6 +65,7 @@
 							?></select>
 							<p></p>
 							<input type="submit" value="内容確認" />
+							<input type="hidden" name="dummy" value="dummy" />
 							</form>
 						</article>
 
