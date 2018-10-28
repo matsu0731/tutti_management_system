@@ -32,6 +32,8 @@
   </header>
   <ul>
     <li><a href="./history.php">注文履歴</a></li>
+    <li><a href="./sales.php">売上情報</a></li>
+    <li><a href="./items.php">商品管理</a></li>
   </ul>
 </nav>
 <!-- Search
