@@ -29,37 +29,14 @@
 							</header> -->
 
 							<h2>Tutti Management System</h2>
-							<span id="view_clock"></span>
-
-							<script type="text/javascript">
-							timerID = setInterval('clock()',500); //0.5秒毎にclock()を実行
-
-							function clock() {
-								document.getElementById("view_clock").innerHTML = getNow();
-							}
-
-							function getNow() {
-								var now = new Date();
-								var year = now.getFullYear();
-								var mon = now.getMonth()+1; //１を足すこと
-								var day = now.getDate();
-								var hour = now.getHours();
-								var min = now.getMinutes();
-								var sec = now.getSeconds();
-
-								//出力用
-								var s = year + "年" + mon + "月" + day + "日" + hour + "時" + min + "分" + sec + "秒";
-								return s;
-							}
-							</script>
 
 							<a href="#" class="image featured"><img src="images/komaba.png" alt="" /></a>
 							<h3>お役立ちリンク集</h3>
 							<p>
-							<a href="https://www.komabasai.net/69/pre/">駒場祭公式HP</a><br/>
+							<a href="https://www.komabasai.net/69/visitor/">駒場祭公式HP</a><br/>
 							<a href="https://www.u-tokyo.ac.jp/ja/about/campus-guide/map02_01.html#">駒場キャンパスマップ</a><br/>
 							<a href="http://www.chor.jp/#">コールアカデミー公式HP</a><br/>
-							<a href="http://letizia.web.fc2.com/index.html#">コーロレティツィア公式HP</a>
+							<a href="http://letizia.web.fc2.com/index.html#">コーロ・レティツィア公式HP</a>
 							</p>
 						</article>
 
