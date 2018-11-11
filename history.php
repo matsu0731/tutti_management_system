@@ -36,17 +36,11 @@
 							$page = min($page, $maxPage);
 
 							$start = ($page - 1)* 10;
-							$recordSet = mysqli_query($db, 'SELECT order_id, customer_id, seat_num,
-							                                max(CASE WHEN item_id = 1 THEN quantity ELSE 0 END) AS "coffee",
-							                                max(CASE WHEN item_id = 2 THEN quantity ELSE 0 END) AS "tea",
-							                                max(CASE WHEN item_id = 3 THEN quantity ELSE 0 END) AS "orange",
-							                                max(CASE WHEN item_id = 4 THEN quantity ELSE 0 END) AS "choco",
-							                                max(CASE WHEN item_id = 5 THEN quantity ELSE 0 END) AS "apple",
-							                                max(CASE WHEN item_id = 6 THEN quantity ELSE 0 END) AS "fruit",
-							                                created, modified
-							                                FROM history
-							                                GROUP BY order_id DESC
-																							LIMIT ' . $start . ',10
+							$recordSet = mysqli_query($db, 'SELECT m.history_id, m.order_id, m.customer_id, m.seat_num, i.item_name, i.type, m.value, m.quantity, m.created, m.modified, m.payment_status
+							                                FROM history m, items i
+																							WHERE m.item_id = i.item_id
+																							ORDER BY m.order_id DESC
+																							LIMIT ' . $start . ',50
 							                                ');
 							?>
 
@@ -57,33 +51,33 @@
 							    <th scope="col">注文ID</th>
 							    <th scope="col">お客様ID</th>
 							    <th scope="col">席番号</th>
-							    <th scope="col">コーヒー</th>
-							    <th scope="col">紅茶</th>
-							    <th scope="col">オレンジジュース</th>
-							    <th scope="col">チョコレートケーキ</th>
-							    <th scope="col">アップルパイ</th>
-							    <th scope="col">フルーツケーキ</th>
+									<th scope="col">商品名</th>
+									<th scope="col">種別</th>
+									<th scope="col">単価</th>
+									<th scope="col">数量</th>
 							    <!-- <th scope="col">注文時間</th> -->
-							    <th scope="col">変更時間</th>
-							    <th scope="col">修正</th>
+							    <th scope="col">注文時間</th>
+									<th scope="col">精算</th>
 							  </tr>
 							<?php
 							while ($table = mysqli_fetch_assoc($recordSet)){
-								if( $table['order_id']!=0) {
+								if( $table['order_id']!=0 && $table['quantity']>0) {
 							?>
 							  <tr>
 							    <td><?php print(htmlspecialchars($table['order_id'])); ?></td>
 							    <td><?php print(htmlspecialchars($table['customer_id'])); ?></td>
 							    <td><?php print(htmlspecialchars($table['seat_num'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['coffee'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['tea'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['orange'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['choco'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['apple'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['fruit'])); ?></td>
-							    <!-- <td><?php #print(htmlspecialchars($table['created'])); ?></td> -->
-							    <td><?php print(htmlspecialchars($table['modified'])); ?></td>
-							    <td><a href="edit.php?order_id=<?php print(htmlspecialchars($table['order_id'])); ?>">修正</a></td>
+							    <td><?php print(htmlspecialchars($table['item_name'])); ?></td>
+							    <td><?php if($table['type']==0){print("ドリンク");} ?>
+											<?php if($table['type']==1){print("ケーキ");} ?>
+											<?php if($table['type']==2){print("割引");} ?>
+									</td>
+							    <td><?php print(htmlspecialchars($table['value'])); ?></td>
+									<td><?php print(htmlspecialchars($table['quantity'])); ?></td>
+							    <td><?php print(htmlspecialchars($table['created'])); ?></td>
+									<td><?php if($table['payment_status']==0){print("未済");} ?>
+											<?php if($table['payment_status']==1){print("済");} ?>
+									</td>
 							  </tr>
 							<?php
 								}
