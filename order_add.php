@@ -26,8 +26,9 @@
 
 							if (!empty($_POST)) {
 								//エラー項目の確認
-								$item = $_POST['item'];
-								if ($item[0] == 0 && $item[1] == 0 && $item[2] == 0 && $item[3] == 0 && $item[4] == 0 && $item[5] == 0) {
+								$drink = $_POST['drink'];
+								$food = $_POST['food'];
+								if (array_sum($drink)+array_sum($food)==0) {
 									$error['item'] = 'zero';
 								}
 
@@ -71,60 +72,52 @@
 							?></select>
 							<p></p>
 
-							<h3>ドリンク</h3>
+							<?php #商品リスト取得
+							$sql_drink = sprintf('SELECT * FROM items WHERE type = 0');
+							$sql_food = sprintf('SELECT * FROM items WHERE type = 1');
+							$drinkSet = mysqli_query($db, $sql_drink);
+							$foodSet = mysqli_query($db, $sql_food);
+							?>
+							<div class="box_order">
+							<div class="box-title">ドリンク</div>
 							<ul>
-							<li>コーヒー　100円
-							  <select name="item[]" id="item[]">
+								<?php while($item = mysqli_fetch_assoc($drinkSet)) {
+									if($item['item_name']!="") {
+									$display = sprintf('%s　%d円 （在庫：%d個）',
+															htmlspecialchars($item['item_name'], ENT_QUOTES),
+															htmlspecialchars($item['value'], ENT_QUOTES),
+															htmlspecialchars($item['stock'], ENT_QUOTES));?>
+							<li><?php print($display); ?>
+							  <select name="drink[]" id="drink[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
 							    print('<option value="' . $i . '">' . $i . '個</option>');
 							  }
 							  ?></select></li>
-							</li>
-							<li>紅茶　100円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    print('<option value="' . $i . '">' . $i . '個</option>');
-							  }
-							  ?></select></li>
-							</li>
-							<li>オレンジジュース　150円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    print('<option value="' . $i . '">' . $i . '個</option>');
-							  }
-							  ?></select></li>
-							</li>
+							<? }
+							} ?>
 							</ul>
-
-							<h3>ケーキ</h3>
+						</div>
+						<div class="box_order">
+							<div class="box-title">ケーキ</div>
 							<ul>
-							<li>チョコレートケーキ　150円
-							  <select name="item[]" id="item[]">
+								<?php while($item = mysqli_fetch_assoc($foodSet)) {
+									if($item['item_name']!="") {
+									$display = sprintf('%s　%d円 （在庫：%d個）',
+															htmlspecialchars($item['item_name'], ENT_QUOTES),
+															htmlspecialchars($item['value'], ENT_QUOTES),
+															htmlspecialchars($item['stock'], ENT_QUOTES));?>
+							<li><?php print($display); ?>
+							  <select name="food[]" id="food[]">
 							  <?php
 							  for ($i = 0; $i<=5; $i++) {
 							    print('<option value="' . $i . '">' . $i . '個</option>');
 							  }
 							  ?></select></li>
-							<li>アップルパイ　150円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    print('<option value="' . $i . '">' . $i . '個</option>');
-							  }
-							  ?></select></li>
-							</li>
-							<li>フルーツケーキ　200円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    print('<option value="' . $i . '">' . $i . '個</option>');
-							  }
-							  ?></select></li>
-							</li>
+							<? }
+							} ?>
 							</ul>
+						</div>
 							<p></p>
 							<input type="submit" value="追加注文" />
 							</form>
