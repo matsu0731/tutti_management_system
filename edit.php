@@ -23,22 +23,17 @@
 							<?php
 							require('dbconnect.php');
 
+							session_start();
+							$_SESSION['edit'] = 'edit';
+
 							$order_id = $_REQUEST['order_id'];
-							$sql_pivot = sprintf('SELECT order_id, customer_id, seat_num,
-							                                max(CASE WHEN item_id = 1 THEN quantity ELSE 0 END) AS "0",
-							                                max(CASE WHEN item_id = 2 THEN quantity ELSE 0 END) AS "1",
-							                                max(CASE WHEN item_id = 3 THEN quantity ELSE 0 END) AS "2",
-							                                max(CASE WHEN item_id = 4 THEN quantity ELSE 0 END) AS "3",
-							                                max(CASE WHEN item_id = 5 THEN quantity ELSE 0 END) AS "4",
-							                                max(CASE WHEN item_id = 6 THEN quantity ELSE 0 END) AS "5",
-							                                created, modified
-							                                FROM history
-							                                WHERE order_id = "%d"
-							                                GROUP BY order_id DESC',
-							                                mysqli_real_escape_string($db, $order_id)
-							                              );
-							                              $recordSet = mysqli_query($db, $sql_pivot);
-							                              $data = mysqli_fetch_assoc($recordSet);
+							$sql_data = sprintf('SELECT * FROM history WHERE order_id = "%d"', mysqli_real_escape_string($db, $order_id));
+							$sql_drink = sprintf('SELECT i.item_name, m.value, m.quantity FROM history m, items i WHERE m.item_id = i.item_id AND i.type = 0 AND m.order_id = "%d"', mysqli_real_escape_string($db, $order_id));
+							$sql_food = sprintf('SELECT i.item_name, m.value, m.quantity FROM history m, items i WHERE m.item_id = i.item_id AND i.type = 1 AND m.order_id = "%d"', mysqli_real_escape_string($db, $order_id));
+							$dataSet = mysqli_query($db, $sql_data);
+							$data = mysqli_fetch_assoc($dataSet);
+							$drinkSet = mysqli_query($db, $sql_drink);
+							$foodSet = mysqli_query($db, $sql_food);
 							?>
 
 							<h2>注文内容修正</h2>
@@ -59,81 +54,43 @@
 
 							<h3>ドリンク</h3>
 							<ul>
-							<li>コーヒー　100円
-							  <select name="item[]" id="item[]">
-							    <?php
-							    for ($i = 0; $i<=5; $i++) {
-							      if ($i == $data['0']) {
-							        print('<option value="' . $i . '" selected>' . $i . '個</option>');
-							      } else {
-							        print('<option value="' . $i . '">' . $i . '個</option>');
-							      }
-							    }
-							  ?></select></li>
-							</li>
-							<li>紅茶　100円
-							  <select name="item[]" id="item[]">
+								<?php while($item = mysqli_fetch_assoc($drinkSet)) {
+									$display = sprintf('%s　%d円',
+															htmlspecialchars($item['item_name'], ENT_QUOTES),
+															htmlspecialchars($item['value'], ENT_QUOTES));?>
+							<li><?php print($display); ?>
+							  <select name="drink[]" id="drink[]">
 							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['1']) {
-							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
-							    } else {
-							      print('<option value="' . $i . '">' . $i . '個</option>');
-							    }
-							  }
-							  ?></select></li>
+								for ($i = 0; $i<=5; $i++) {
+									if ($i == $item['quantity']) {
+										print('<option value="' . $i . '" selected>' . $i . '個</option>');
+									} else {
+										print('<option value="' . $i . '">' . $i . '個</option>');
+									}
+								}
+							  ?></select>
 							</li>
-							<li>オレンジジュース　150円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['2']) {
-							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
-							    } else {
-							      print('<option value="' . $i . '">' . $i . '個</option>');
-							    }
-							  }
-							  ?></select></li>
-							</li>
+							<?}?>
 							</ul>
 
 							<h3>ケーキ</h3>
 							<ul>
-							<li>チョコレートケーキ　150円
-							  <select name="item[]" id="item[]">
+								<?php while($item = mysqli_fetch_assoc($foodSet)) {
+									$display = sprintf('%s　%d円',
+															htmlspecialchars($item['item_name'], ENT_QUOTES),
+															htmlspecialchars($item['value'], ENT_QUOTES));?>
+							<li><?php print($display); ?>
+							  <select name="food[]" id="food[]">
 							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['3']) {
-							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
-							    } else {
-							      print('<option value="' . $i . '">' . $i . '個</option>');
-							    }
-							  }
+								for ($i = 0; $i<=5; $i++) {
+									if ($i == $item['quantity']) {
+										print('<option value="' . $i . '" selected>' . $i . '個</option>');
+									} else {
+										print('<option value="' . $i . '">' . $i . '個</option>');
+									}
+								}
 							  ?></select></li>
-							<li>アップルパイ　150円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['4']) {
-							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
-							    } else {
-							      print('<option value="' . $i . '">' . $i . '個</option>');
-							    }
-							  }
-							  ?></select></li>
-							</li>
-							<li>フルーツケーキ　200円
-							  <select name="item[]" id="item[]">
-							  <?php
-							  for ($i = 0; $i<=5; $i++) {
-							    if ($i == $data['5']) {
-							      print('<option value="' . $i . '" selected>' . $i . '個</option>');
-							    } else {
-							      print('<option value="' . $i . '">' . $i . '個</option>');
-							    }
-							  }
-							  ?></select></li>
-							</li>
+							<?} ?>
 							</ul>
 
 							<input type="submit" value="注文内容修正" />
