@@ -11,14 +11,23 @@
         .yellow{
  background-color: yellow;
 }
+.yellow a{
+	color: #565656;
+}
 .green{
  background-color: green;
+}
+.green a{
+	color: #ffffff;
 }
 .blue{
  background-color: blue;
 }
 .red{
  background-color: red;
+}
+.red a{
+	color: #ffffff;
 }
 .black{
  background-color: black;
@@ -29,6 +38,7 @@
 .parent {
  width: 100%;
  height: 80px;
+ border: solid;
  display: flex;
 }
 .child {
@@ -37,10 +47,21 @@
  font-size:400%;
  height: 80px;
  line-height: 80px;
+ border: solid;
  vertical-align:middle;
+}
+
+.child  a {
+		display:block;
+		text-decoration: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
         </style>
 		<meta charset="utf-8" />
+		<meta http-equiv="refresh" content="8" >
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
@@ -58,22 +79,7 @@
 							?>
 
 							<h2>配達状況管理</h2>
-                            <div class="parent" style="height:18px">
-                            <div class="child green"></div> <h3 style="font-size:13px">緑：調理〇、配達〇</h3>
-                            </div>
-                            <div class="parent" style="height:18px">
-                            <div class="child yellow"></div> <h3 style="font-size:13px">黄：調理〇、配達✖</h3>
-                            </div>
-                            <div class="parent" style="height:18px">
-                            <div class="child red"></div> <h3 style="font-size:13px">赤：調理✖、配達✖</h3>
-                            </div>
-                            <div class="parent" style="height:18px">
-                            <div class="child black"></div> <h3 style="font-size:13px">黒：調理✖、配達〇。エラー状態なので報告すること</h3>
-                            </div>
-                            <div class="parent" style="height:18px">
-                            <div class="child white"></div> <h3 style="font-size:13px">白：空席</h3>
-                            </div>
-                            </br>
+							<img src="images/status.png" alt="" width="400"/>
 
 							<?php
                             //色ごとの解説追加
