@@ -23,9 +23,21 @@
 							<?php
 							require('dbconnect.php');
 
-							$sql_items = sprintf('SELECT item_id, item_name, value, stock FROM items');
-							$Items = mysqli_query($db, $sql_items);
+							session_start();
+							$_SESSION['update_flag'] = "update";
+
+
 							#$table_items = mysqli_fetch_assoc($Items);
+
+							if(isset($_POST['del'])) {
+								print($_POST['del']);
+								$sql_del = sprintf('UPDATE items SET item_name = "", value = 0, stock = 0 WHERE item_id = %d',
+														mysqli_real_escape_string($db, $_POST['del']));
+								mysqli_query($db, $sql_del);
+							}
+
+							$sql_items = sprintf('SELECT * FROM items');
+							$Items = mysqli_query($db, $sql_items);
 
 							?>
 
@@ -37,25 +49,35 @@
 								<tr>
 									<th scope="col">商品ID</th>
 									<th scope="col">商品名</th>
+									<th scope="col">種別</th>
 									<th scope="col">単価（円）</th>
 									<th scope="col">在庫（個）</th>
 									<th scope="col">変更</th>
 								</tr>
 							<?php
 							while($table_items = mysqli_fetch_assoc($Items)){
+								if($table_items['item_name']!="") {
 							?>
 								<tr>
 									<td><?php print(htmlspecialchars($table_items['item_id'])); ?></td>
 									<td><?php print(htmlspecialchars($table_items['item_name'])); ?></td>
+									<td><?php if($table_items['type']==0){print("ドリンク");}
+														if($table_items['type']==1){print("ケーキ");}
+														if($table_items['type']==2){print("割引");}?></td>
 									<td><?php print(htmlspecialchars($table_items['value'])); ?></td>
 									<td><?php print(htmlspecialchars($table_items['stock'])); ?></td>
-									<td><a href="items_update.php?id=<?php print(htmlspecialchars($table_items['item_id']));?>">編集</a></td>
+									<td>
+										<button type="button" onclick="location.href='items_update.php?id=<?php print(htmlspecialchars($table_items['item_id']));?>'">編集</button>
+										<button type="submit" name="del" value="<?php print(htmlspecialchars($table_items['item_id']));?>" onclick="location.href='items.php'">削除</button>
+									</td>
 								</tr>
 							<?php
 							}
-							?>
+						}?>
 							</table>
 							</form>
+
+							<button type="button" onclick="location.href='items_add.php'">商品追加</button>
 
 						</article>
 
