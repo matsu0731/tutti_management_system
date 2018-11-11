@@ -49,6 +49,7 @@ form{
 }
         </style>
 		<meta charset="utf-8" />
+		<meta http-equiv="refresh" content="8" >
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
@@ -80,8 +81,8 @@ form{
                             }
                             $record_itm->free();
                             if($_POST["del"] != ''){
-                                print($_POST["item_name"]);
-                                print(array_search($_POST["item_name"], $items));
+                                //print($_POST["item_name"]);
+                                //print(array_search($_POST["item_name"], $items));
                                 $id = array_search($_POST["item_name"], $items);
                                 switch($_POST["del"]){
                                     case "done":$update = $db->prepare('UPDATE history SET delivery_status=1 WHERE order_id = ? AND item_id = ?');
@@ -159,6 +160,7 @@ form{
                                 $record_his->close();
                             }
                             //print_r($order);
+
                             print("<h3>席番号</h3>");
                             print("<h2>" . $seat_id . "</h2>");
                             //席番号横に追加注文位置変更
@@ -172,9 +174,10 @@ form{
                             -->
                             <?php
                             for($i=0;$i<$cnt['ord'];$i++){
-                                print("<h3>注文番号</h3>");
-                                //注文番号ごとにバックグラウンドカラー変更
-                                print("<h2>" . $order_id[$i] . "</h2>");
+                                print("<h3>注文ID</h3>");
+																print("<h2>" . $order_id[$i] . "</h2>");?>
+															<button type="button" onclick="location.href='edit.php?order_id=<?php print(htmlspecialchars($order_id[$i], ENT_QUOTES));?>'">注文内容編集</button>
+                                <?php //注文番号ごとにバックグラウンドカラー変更
                                 print("<table width=\"100%\"><tr>
                                 <th scope=\"col\">商品名</th>
                                 <th scope=\"col\">数量</th>
@@ -190,7 +193,7 @@ form{
                                 <td><?php print(htmlspecialchars($order[$i][$j][1])); ?></td>
                                 <td><?php print(htmlspecialchars($order[$i][$j][2])); ?></td>
                                 <td>
-                                <?php 
+                                <?php
                                 if($order[$i][$j][3]=="未調理"){
                                    print("未調理です");
                                    $order[$i]["uncookedflag"]="未調理";
