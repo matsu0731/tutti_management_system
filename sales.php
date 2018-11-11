@@ -26,15 +26,15 @@
 							#print($_POST['date']);
 
 							if ($_POST['date']=="") {
-							$sql_sum = sprintf('SELECT SUM(m.value * i.quantity) AS sum FROM items m, history i
+							$sql_sum = sprintf('SELECT SUM(i.value * i.quantity) AS sum FROM items m, history i
 							WHERE m.item_id = i.item_id AND i.payment_status = 1');
-							$sql_sales = sprintf('SELECT m.item_name, m.value, SUM(i.quantity) AS quantity, m.value * SUM(i.quantity) AS calc FROM items m, history i
-							WHERE m.item_id = i.item_id AND i.payment_status = 1 GROUP BY m.item_name');
+							$sql_sales = sprintf('SELECT m.item_name, m.type, m.value, SUM(i.quantity) AS quantity, SUM(i.quantity * i.value) AS calc FROM items m, history i
+							WHERE m.item_id = i.item_id AND i.payment_status = 1 GROUP BY i.item_id ORDER BY m.item_id');
 						  } else {
-							$sql_sum = sprintf('SELECT SUM(m.value * i.quantity) AS sum FROM items m, history i
+							$sql_sum = sprintf('SELECT SUM(i.value * i.quantity) AS sum FROM items m, history i
 							WHERE m.item_id = i.item_id AND i.payment_status = 1 AND DATE(i.created) = "%s"', $_POST['date']);
-							$sql_sales = sprintf('SELECT m.item_name, m.value, SUM(i.quantity) AS quantity, m.value * SUM(i.quantity) AS calc FROM items m, history i
-							WHERE m.item_id = i.item_id AND i.payment_status = 1 AND DATE(i.created) = "%s" GROUP BY m.item_name', $_POST['date']);
+							$sql_sales = sprintf('SELECT m.item_name, m.type, m.value, SUM(i.quantity) AS quantity, SUM(i.quantity * i.value) AS calc FROM items m, history i
+							WHERE m.item_id = i.item_id AND i.payment_status = 1 AND DATE(i.created) = "%s" GROUP BY i.item_id', $_POST['date']);
 						  }
 
 							$Sum = mysqli_query($db, $sql_sum);
@@ -70,7 +70,7 @@
 							<table width="100%">
 								<tr>
 									<th scope="col">商品名</th>
-									<th scope="col">単価</th>
+									<th scope="col">種別</th>
 									<th scope="col">数量</th>
 									<th scope="col">小計</th>
 								</tr>
@@ -79,9 +79,11 @@
 							?>
 								<tr>
 									<td><?php print(htmlspecialchars($table_sales['item_name'])); ?></td>
-									<td><?php print(htmlspecialchars($table_sales['value'])); ?></td>
+									<td><?php if($table_sales['type']==0){print("ドリンク");}
+														if($table_sales['type']==1){print("ケーキ");}
+														if($table_sales['type']==2){print("割引");}?></td>
 									<td><?php print(htmlspecialchars($table_sales['quantity'])); ?></td>
-									<td><?php print(htmlspecialchars($table_sales['calc'])); ?></td>
+									<td><?php print(htmlspecialchars($table_sales['calc'])); ?>円</td>
 								</tr>
 							<?php
 							}
