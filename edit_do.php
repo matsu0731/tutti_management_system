@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -22,7 +23,6 @@
 						<article class="box post post-excerpt">
 
 							<?php require('dbconnect.php');
-							session_start();
 							if (!isset($_SESSION['edit'])) {
 								header('Location: index.php');
 								exit();

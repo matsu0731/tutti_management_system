@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -23,7 +24,6 @@
 							<?php
 							require('dbconnect.php');
 
-							session_start();
 							$_SESSION['edit'] = 'edit';
 
 							$order_id = $_REQUEST['order_id'];

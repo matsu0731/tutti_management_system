@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -26,7 +27,6 @@
 							<h2>注文完了</h2>
 
 							<?php
-							session_start();
 
 							if (!isset($_SESSION['order'])) {
 								header('Location: order.php');

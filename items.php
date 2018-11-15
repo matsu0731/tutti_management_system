@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -22,8 +23,6 @@
 
 							<?php
 							require('dbconnect.php');
-
-							session_start();
 							$_SESSION['update_flag'] = "update";
 
 
