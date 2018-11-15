@@ -30,7 +30,7 @@
 
 							<h2>Tutti Management System</h2>
 
-							<a href="#" class="image featured"><img src="images/komaba.png" alt="" /></a>
+							<a href="#" class="image featured"><img src="images/komaba.jpg" alt="" /></a>
 							<h3>お役立ちリンク集</h3>
 							<p>
 							<a href="https://www.komabasai.net/69/visitor/">駒場祭公式HP</a><br/>
