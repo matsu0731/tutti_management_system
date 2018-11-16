@@ -92,7 +92,7 @@
                                     $array = array('-1');
                                     //echo 0;
                                 }else{
-                                    $record_his = $db->prepare('SELECT cooking_status, delivery_status FROM history WHERE customer_id = ?');
+                                    $record_his = $db->prepare('SELECT cooking_status, delivery_status FROM history WHERE customer_id = ? AND quantity > 0');
                                     $record_his->bind_param("i", $record["customer_id"]);
                                     $record_his->execute();
                                     $record_his->bind_result($c_status, $d_status);

@@ -1,3 +1,11 @@
+<?php
+if(isset($_REQUEST['id']) && is_numeric($_REQUEST['id'])){
+		$seat_id = $_REQUEST['id'];
+}else{
+		header('Location: waiter.php');
+}
+ ?>
+
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -69,11 +77,6 @@ form{
 							<h2>配達・調理状況</h2>
 
 							<?php
-                            if(isset($_REQUEST['id']) && is_numeric($_REQUEST['id'])){
-                                $seat_id = $_REQUEST['id'];
-                            }else{
-                                header('Location: waiter.php');
-                            }
                             $items = array();
                             $record_itm = mysqli_query($db, 'SELECT item_name, item_id FROM items');
                             while($item = mysqli_fetch_assoc($record_itm)){
