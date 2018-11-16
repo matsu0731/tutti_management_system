@@ -61,7 +61,5 @@
 					</div>
 					</div>
 
-						<?php include('../frame.php'); ?>
-
 	</body>
 </html>
