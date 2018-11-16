@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start();
+			if (!isset($_SESSION['order_add'])) {
+				header('Location: order_add.php');
+				exit();
+			}
+ ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -27,12 +32,6 @@
 							<h2>注文完了</h2>
 
 							<?php
-
-							if (!isset($_SESSION['order_add'])) {
-								header('Location: order_add.php');
-								exit();
-							}
-
 							$drink_ordered = $_SESSION['order_add']['drink'];
 							$food_ordered = $_SESSION['order_add']['food'];
 							$seat_num = $_SESSION['order_add']['seat_number'];

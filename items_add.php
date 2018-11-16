@@ -1,4 +1,35 @@
-<?php session_start(); ?>
+<?php session_start();
+			if (!empty($_POST)) {
+				//エラー項目の確認
+				if ($_POST['item_name'] == '') {
+					$error['item_name'] = 'name';
+				}
+				if ($_POST['value'] == '') {
+					$error['value'] = 'value';
+				}
+				if (!is_numeric($_POST['value'])) {
+					$error['value'] = 'value_n';
+				}
+				if ($_POST['stock'] == '') {
+					$error['stock'] = 'stock';
+				}
+				if (!is_numeric($_POST['stock'])) {
+					$error['stock'] = 'stock_n';
+				}
+
+				if (empty($error)) {
+					$_SESSION['items_add'] = $_POST;
+					header('Location: items_add.php');
+					exit();
+			}
+
+		}
+
+			if (!isset($_SESSION['update_flag'])) {
+				header('Location: items.php');
+				exit();
+			}
+ ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -23,33 +54,6 @@
 
 							<?php
 							require('dbconnect.php');
-
-							if (!empty($_POST)) {
-								//エラー項目の確認
-								if ($_POST['item_name'] == '') {
-									$error['item_name'] = 'name';
-								}
-								if ($_POST['value'] == '') {
-									$error['value'] = 'value';
-								}
-								if (!is_numeric($_POST['value'])) {
-									$error['value'] = 'value_n';
-								}
-								if ($_POST['stock'] == '') {
-									$error['stock'] = 'stock';
-								}
-								if (!is_numeric($_POST['stock'])) {
-									$error['stock'] = 'stock_n';
-								}
-
-								if (empty($error)) {
-									$_SESSION['items_add'] = $_POST;
-									header('Location: items_add.php');
-									exit();
-								}
-
-							}
-
 							$Id = mysqli_query($db, 'SELECT MAX(item_id)+1 AS nextid FROM items');
 							$nextid = mysqli_fetch_assoc($Id);
 
@@ -92,7 +96,7 @@
 								//print("商品が追加されました");
 								unset($_SESSION['items_update']);
 								unset($_SESSION['items_add']);
-								header('Location: items.php');
+								unset($_SESSION['update_flag']);
 							} else {
 							print('
 							<form id="itemAdd" name="Add" method="post" action="items_add.php">
@@ -140,13 +144,6 @@
 
 							</form>
 							'); }?>
-
-							<?php
-							if (!isset($_SESSION['update_flag'])) {
-								header('Location: items.php');
-								exit();
-							}
-							?>
 
 						</article>
 

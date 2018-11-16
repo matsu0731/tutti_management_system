@@ -1,4 +1,18 @@
-<?php session_start();?>
+<?php session_start();
+			if (!isset($_SESSION['payment'])) {
+				header('Location: payment.php');
+				exit();
+			}
+
+			if (!empty($_POST)) {
+				if (empty($error)) {
+					$_SESSION['payment_do'] = $_POST;
+					unset($_SESSION['payment']);
+					header('Location: payment_do.php');
+					exit();
+				}
+			}
+?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -23,20 +37,6 @@
 
 							<?php
 							require('dbconnect.php');
-
-							if (!isset($_SESSION['payment'])) {
-								header('Location: payment.php');
-								exit();
-							}
-
-							if (!empty($_POST)) {
-								if (empty($error)) {
-									$_SESSION['payment_do'] = $_POST;
-									unset($_SESSION['payment']);
-									header('Location: payment_do.php');
-									exit();
-								}
-							}
 							$flag = 0;
 							$drinkcount = 0;
 							?>

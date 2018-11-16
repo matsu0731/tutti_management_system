@@ -1,4 +1,10 @@
-<?php session_start();?>
+<?php session_start();
+			require('dbconnect.php');
+			if (!isset($_SESSION['edit'])) {
+				header('Location: index.php');
+				exit();
+			}
+?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -21,13 +27,6 @@
 
 					<!-- Post -->
 						<article class="box post post-excerpt">
-
-							<?php require('dbconnect.php');
-							if (!isset($_SESSION['edit'])) {
-								header('Location: index.php');
-								exit();
-							}
-							 ?>
 
 							<h2>注文内容修正</h2>
 							<p>注文内容の修正が完了しました</p>

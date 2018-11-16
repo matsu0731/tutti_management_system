@@ -1,4 +1,35 @@
-<?php session_start(); ?>
+<?php session_start();
+			if (!empty($_POST)) {
+				//エラー項目の確認
+				if ($_POST['item_name'] == '') {
+					$error['item_name'] = 'name';
+				}
+				if ($_POST['value'] == '') {
+					$error['value'] = 'value';
+				}
+				if (!is_numeric($_POST['value'])) {
+					$error['value'] = 'value_n';
+				}
+				if ($_POST['stock'] == '') {
+					$error['stock'] = 'stock';
+				}
+				if (!is_numeric($_POST['stock'])) {
+					$error['stock'] = 'stock_n';
+				}
+
+				if (empty($error)) {
+					$_SESSION['items_update'] = $_POST;
+					$_SESSION['items_update']['flag']="edited";
+					header('Location: items_update.php?id='.$_POST['item_id'].'');
+					exit();
+				}
+			}
+
+			if (!isset($_SESSION['update_flag'])) {
+				header('Location: items.php');
+				exit();
+			}
+ ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -23,32 +54,6 @@
 
 							<?php
 							require('dbconnect.php');
-
-							if (!empty($_POST)) {
-								//エラー項目の確認
-								if ($_POST['item_name'] == '') {
-									$error['item_name'] = 'name';
-								}
-								if ($_POST['value'] == '') {
-									$error['value'] = 'value';
-								}
-								if (!is_numeric($_POST['value'])) {
-									$error['value'] = 'value_n';
-								}
-								if ($_POST['stock'] == '') {
-									$error['stock'] = 'stock';
-								}
-								if (!is_numeric($_POST['stock'])) {
-									$error['stock'] = 'stock_n';
-								}
-
-								if (empty($error)) {
-									$_SESSION['items_update'] = $_POST;
-									$_SESSION['items_update']['flag']="edited";
-									header('Location: items_update.php?id='.$_POST['item_id'].'');
-									exit();
-								}
-							}
 
 							$id = $_REQUEST['id'];
 							$sql_items = sprintf('SELECT * FROM items WHERE item_id = %d', mysqli_real_escape_string($db, $id));
@@ -94,6 +99,7 @@
 								$table_items = mysqli_fetch_assoc($Items);
 								print("内容が変更されました");
 								unset($_SESSION['items_update']);
+								unset($_SESSION['update_flag']);
 							}
 							 ?>
 
@@ -139,13 +145,6 @@
 									<input type="hidden" name="item_id" value="<?php print(htmlspecialchars($table_items['item_id'], ENT_QUOTES)) ?>" />
 
 							</form>
-
-							<?php
-							if (!isset($_SESSION['update_flag'])) {
-								header('Location: items.php');
-								exit();
-							}
-							?>
 
 						</article>
 

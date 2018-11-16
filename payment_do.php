@@ -1,4 +1,9 @@
-<?php session_start(); ?>
+<?php session_start();
+			if (!isset($_SESSION['payment_do'])) {
+				header('Location: payment_confirm.php');
+				exit();
+			}
+ ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -22,13 +27,7 @@
 					<!-- Post -->
 						<article class="box post post-excerpt">
 
-							<?php require('dbconnect.php');
-
-							if (!isset($_SESSION['payment_do'])) {
-								header('Location: payment_confirm.php');
-								exit();
-							}
-							 ?>
+							<?php require('dbconnect.php');?>
 
 							<h2>精算完了</h2>
 

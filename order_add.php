@@ -1,4 +1,23 @@
-<?php session_start(); ?>
+<?php session_start();
+			if (!empty($_POST)) {
+				//エラー項目の確認
+				$drink = $_POST['drink'];
+				$food = $_POST['food'];
+				if (array_sum($drink)+array_sum($food)==0) {
+					$error['item'] = 'zero';
+				}
+
+				if ($_POST['seat_number'] == '') {
+					$error['seat'] = 'seat';
+				}
+
+				if (empty($error)) {
+					$_SESSION['order_add'] = $_POST;
+					header('Location: order_add_do.php');
+					exit();
+				}
+			}
+ ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -23,25 +42,6 @@
 
 							<?php
 							require('dbconnect.php');
-
-							if (!empty($_POST)) {
-								//エラー項目の確認
-								$drink = $_POST['drink'];
-								$food = $_POST['food'];
-								if (array_sum($drink)+array_sum($food)==0) {
-									$error['item'] = 'zero';
-								}
-
-								if ($_POST['seat_number'] == '') {
-									$error['seat'] = 'seat';
-								}
-
-								if (empty($error)) {
-									$_SESSION['order_add'] = $_POST;
-									header('Location: order_add_do.php');
-									exit();
-								}
-							}
 							?>
 
 							<h2>追加注文</h2>

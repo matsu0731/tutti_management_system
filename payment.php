@@ -1,4 +1,21 @@
-<?php session_start(); ?>
+<?php session_start();
+			if (!empty($_POST)) {
+				//エラー項目の確認
+				if ($_POST['seat_number'] == '') {
+					$error['seat'] = 'seat';
+				}
+
+				if ($_POST['dummy'] == '') {
+					$error['seat'] = 'seat';
+				}
+
+				if (empty($error)) {
+					$_SESSION['payment'] = $_POST;
+					header('Location: payment_confirm.php');
+					exit();
+				}
+			}
+ ?>
 <!DOCTYPE HTML>
 <!--
 	Striped by HTML5 UP
@@ -22,25 +39,7 @@
 						<article class="box post post-excerpt">
 
 							<?php
-							require('dbconnect.php');
-
-							if (!empty($_POST)) {
-								//エラー項目の確認
-								if ($_POST['seat_number'] == '') {
-									$error['seat'] = 'seat';
-								}
-
-								if ($_POST['dummy'] == '') {
-									$error['seat'] = 'seat';
-								}
-
-								if (empty($error)) {
-									$_SESSION['payment'] = $_POST;
-									header('Location: payment_confirm.php');
-									exit();
-								}
-							}
-							?>
+							require('dbconnect.php');	?>
 
 							<h2>精算</h2>
 							<form action="" method="post">
