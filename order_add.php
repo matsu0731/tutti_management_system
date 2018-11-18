@@ -75,17 +75,20 @@
 							<?php #商品リスト取得
 							$sql_drink = sprintf('SELECT * FROM items WHERE type = 0');
 							$sql_food = sprintf('SELECT * FROM items WHERE type = 1');
+							$sql_discount = sprintf('SELECT * FROM items WHERE type = 2');
 							$drinkSet = mysqli_query($db, $sql_drink);
 							$foodSet = mysqli_query($db, $sql_food);
+							$discountSet = mysqli_query($db, $sql_discount);
+							$discount = mysqli_fetch_assoc($discountSet);
 							?>
 							<div class="box_order">
 							<div class="box-title">ドリンク</div>
 							<ul>
 								<?php while($item = mysqli_fetch_assoc($drinkSet)) {
 									if($item['item_name']!="") {
-									$display = sprintf('%s　%d円 （在庫：%d個）',
+									$display = sprintf('%s（おかわり）　%d円 （在庫：%d個）',
 															htmlspecialchars($item['item_name'], ENT_QUOTES),
-															htmlspecialchars($item['value'], ENT_QUOTES),
+															htmlspecialchars($item['value']+$discount['value'], ENT_QUOTES),
 															htmlspecialchars($item['stock'], ENT_QUOTES));?>
 							<li><?php print($display); ?>
 							  <select name="drink[]" id="drink[]">

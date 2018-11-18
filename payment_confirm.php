@@ -72,7 +72,7 @@
 							  </tr>
 							<?php
 
-							$sql = sprintf('SELECT m.item_name, i.value, m.type, i.value * i.quantity AS calc, i.* FROM items m, history i WHERE m.item_id = i.item_id AND i.customer_id = "%d" ORDER BY history_id DESC', $table['customer_id']);
+							$sql = sprintf('SELECT m.item_name, i.value, m.type, i.value * i.quantity AS calc, i.* FROM items m, history i WHERE m.item_id = i.item_id AND i.customer_id = "%d" ORDER BY history_id', $table['customer_id']);
 							$recordSet = mysqli_query($db, $sql);
 							$sql1 = sprintf('SELECT SUM(i.value * i.quantity) AS sum FROM items m, history i WHERE m.item_id = i.item_id AND i.customer_id = "%d" ORDER BY history_id DESC', $table['customer_id']);
 							$recordSet1 = mysqli_query($db, $sql1);
@@ -84,26 +84,18 @@
 							    <td><?php print(htmlspecialchars($table['order_id'])); ?></td>
 							    <td><?php print(htmlspecialchars($table['item_name'])); ?></td>
 									<td><?php if ($table['type'] == 0){$flag=1; print("ドリンク");}
-														if ($table['type'] == 1){print("ケーキ");}?>
+														if ($table['type'] == 1){print("ケーキ");}
+														if ($table['type'] == 2){print("割引");}?>
 									</td>
 							    <td><?php print(htmlspecialchars($table['value'])); ?></td>
 							    <td><?php print(htmlspecialchars($table['quantity'])); ?></td>
-							    <td><?php print(htmlspecialchars($table['calc'])); ?>円</td>
+							    <td><?php if ($table['type'] != 2){print(''.htmlspecialchars($table['calc']).'円');}
+									 					else{print('<font size="5" color="#ff0000">'. htmlspecialchars($table['calc']). '円</font>');}?></td>
 							  </tr>
 							<?php
-							  }
 								if($flag == 1){$drinkcount++; $flag=0;}
+							  }
 							}?>
-							<?php #割引表示
-							$discount=($drinkcount-1)*50;
-							if ($drinkcount > 1) {print('
-							<tr>
-								<td></td><td>ドリンクおかわり</td><td>割引</td><td>50円引き</td><td>'.htmlspecialchars($drinkcount-1, ENT_QUOTES).'回</td>
-								<td><font size="5" color="#ff0000">'.htmlspecialchars($discount, ENT_QUOTES).'円引き</font></td>
-							</tr>
-							<input type="hidden" name="discount" value="'.htmlspecialchars($drinkcount-1, ENT_QUOTES). '" >
-							');
-						}?>
 
 							</table>
 

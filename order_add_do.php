@@ -51,10 +51,14 @@
 							<?php #商品リスト取得
 							$sql_drink = sprintf('SELECT * FROM items WHERE type = 0');
 							$sql_food = sprintf('SELECT * FROM items WHERE type = 1');
+							$sql_discount = sprintf('SELECT * FROM items WHERE type = 2');
 							$drinkSet = mysqli_query($db, $sql_drink);
 							$foodSet = mysqli_query($db, $sql_food);
+							$discountSet = mysqli_query($db, $sql_discount);
+							$discount = mysqli_fetch_assoc($discountSet);
 							$drinkcount = 0;
 							$foodcount = 0;
+							$discount_count = 0;
 
 							#注文IDの繰り上げ
 							$recordSet = mysqli_query($db, 'SELECT MAX(order_id) + 1 FROM history');
@@ -65,9 +69,9 @@
 							<ul>
 								<?php while($item = mysqli_fetch_assoc($drinkSet)) {
 									if($item['item_name']!="") {
-									$display = sprintf('%s　%d円：%d個',
+									$display = sprintf('%s（おかわり）　%d円：%d個',
 															htmlspecialchars($item['item_name'], ENT_QUOTES),
-															htmlspecialchars($item['value'], ENT_QUOTES),
+															htmlspecialchars($item['value']+$discount['value'], ENT_QUOTES),
 															htmlspecialchars($drink_ordered[$drinkcount], ENT_QUOTES));
 									$sql = sprintf('INSERT INTO history SET order_id = "%d", customer_id = "%d", seat_num = "%d", item_id = "%d", value = "%d", quantity="%d", created= NOW() ',
 									mysqli_real_escape_string($db, $order_id['MAX(order_id) + 1']),
@@ -83,6 +87,7 @@
 									$sql_stock = sprintf('UPDATE items SET stock = stock - %d WHERE item_id=%d', $drink_ordered[$drinkcount], mysqli_real_escape_string($db, $item['item_id']));
 									if ($drink_ordered[$drinkcount] > 0) {
 										mysqli_query($db, $sql_stock) or die (mysqli_error($db));
+										$discount_count = $discount_count + $drink_ordered[$drinkcount];
 									}
 									?>
 
@@ -91,6 +96,18 @@
 							} ?>
 
 							</ul>
+
+							<?php #ドリンクおかわり割引処理
+							$sql_discount = sprintf('INSERT INTO history SET order_id = "%d", customer_id = "%d", seat_num = "%d", item_id = "%d", value = "%d", quantity="%d", created= NOW() ',
+																	mysqli_real_escape_string($db, $order_id['MAX(order_id) + 1']),
+																	mysqli_real_escape_string($db, $customer_id['customer_id']),
+																	mysqli_real_escape_string($db, $seat_num),
+																	mysqli_real_escape_string($db, $discount['item_id']),
+																	mysqli_real_escape_string($db, $discount['value']),
+																	mysqli_real_escape_string($db, $discount_count)
+											);
+											mysqli_query($db, $sql_discount) or die(mysqli_error($db));
+								?>
 
 							<h3>ケーキ</h3>
 							<ul>

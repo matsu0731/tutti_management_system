@@ -57,7 +57,7 @@ form{
 }
         </style>
 		<meta charset="utf-8" />
-		<meta http-equiv="refresh" content="8" >
+		<meta http-equiv="refresh" content="60" >
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
 	</head>
@@ -137,7 +137,7 @@ form{
                             //print_r($order_id);
                             $order = array();
                             for($i=0;$i<$cnt['ord'];$i++){
-                                $record_his = $db->prepare('SELECT item_id, quantity, delivery_status, cooking_status FROM history WHERE order_id=?');
+                                $record_his = $db->prepare('SELECT m.item_id, m.quantity, m.delivery_status, m.cooking_status FROM history m, items i WHERE m.item_id=i.item_id AND m.order_id=? AND i.type!=2');
                                 $record_his->bind_param("i", $order_id[$i]);
                                 $record_his->execute();
                                 $record_his->bind_result($item_id, $quantity, $d_status, $c_status);

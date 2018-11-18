@@ -7,7 +7,7 @@
 <html>
 	<head>
 		<title>Tutti Management System</title>
-		<meta http-equiv="refresh" content="8" > 
+		<meta http-equiv="refresh" content="8" >
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -50,7 +50,7 @@
 											</tr>
 
 										<?php
-										$sql = sprintf('SELECT m.item_name, m.value, m.value * i.quantity AS calc, i.* FROM items m, history i WHERE m.item_id = i.item_id AND i.order_id = "%d" AND i.cooking_status = 0 ORDER BY item_id', $table1['order_id']);
+										$sql = sprintf('SELECT m.item_name, m.value, m.value * i.quantity AS calc, i.* FROM items m, history i WHERE m.item_id = i.item_id AND i.order_id = "%d" AND i.cooking_status = 0 AND m.type != 2 ORDER BY item_id', $table1['order_id']);
 										$recordSet = mysqli_query($db, $sql);
 										while ($table = mysqli_fetch_assoc($recordSet)) {
 											if ($table['quantity']>0) {
