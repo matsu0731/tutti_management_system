@@ -32,15 +32,15 @@
 							$sql = 'SELECT COUNT(*) AS cnt FROM history';
 							$recordSet = mysqli_query($db, $sql);
 							$table = mysqli_fetch_assoc($recordSet);
-							$maxPage = ceil($table['cnt'] / 60);
+							$maxPage = ceil($table['cnt'] / 30);
 							$page = min($page, $maxPage);
 
-							$start = ($page - 1)* 10;
+							$start = ($page - 1) * 30;
 							$recordSet = mysqli_query($db, 'SELECT m.history_id, m.order_id, m.customer_id, m.seat_num, i.item_name, i.type, m.value, m.quantity, m.created, m.modified, m.payment_status
 							                                FROM history m, items i
-																							WHERE m.item_id = i.item_id
+																							WHERE m.item_id = i.item_id AND m.quantity>0
 																							ORDER BY m.order_id DESC
-																							LIMIT ' . $start . ',50
+																							LIMIT ' . $start . ', 30
 							                                ');
 							?>
 
