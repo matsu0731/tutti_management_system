@@ -86,7 +86,7 @@
 							<ul>
 								<?php while($item = mysqli_fetch_assoc($drinkSet)) {
 									if($item['item_name']!="") {
-									$display = sprintf('%s（おかわり）　%d円 （在庫：%d個）',
+									$display = sprintf('%s（おかわり）%d円 （在庫：%d個）',
 															htmlspecialchars($item['item_name'], ENT_QUOTES),
 															htmlspecialchars($item['value']+$discount['value'], ENT_QUOTES),
 															htmlspecialchars($item['stock'], ENT_QUOTES));?>

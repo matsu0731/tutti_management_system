@@ -42,7 +42,8 @@
 							?>
 
 									<div class="box30">
-    								<div class="box-title">注文ID：<?php print(htmlspecialchars($table1['order_id'])); ?> | 席番号：<?php print(htmlspecialchars($table1['seat_num'])); ?></div>
+    								<div class="box-title">席番号：<?php print(htmlspecialchars($table1['seat_num'])); ?></div>
+										<p>注文ID：<?php print(htmlspecialchars($table1['order_id'])); ?></p>
 										<table width="100%">
 											<tr>
 												<th scope="col">商品名</th>

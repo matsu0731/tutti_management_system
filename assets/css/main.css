@@ -7,6 +7,56 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 */
 
+.box_status {
+		display: inline-block; /* インラインブロック化 */
+		vertical-align: top;   /* 上端を揃える */
+		width: 100%;
+    margin: 1em 1em;
+    background: #f1f1f1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.22);
+		position: relative;
+		text-align:center;
+}
+
+.box_status .box-title {
+		display: flex;
+		justify-content:space-between;
+		align-items:center;
+    font-size: 1.5em;
+    background: #364050 url("images/bg01.png");
+    padding: 4px;
+    text-align: center;
+		vertical-align: middle;
+    color: #FFF;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+}
+
+.box_status .flex {
+    padding:  1em 1em;             /* 余白指定 */
+    display: flex;              /* フレックスボックスにする */
+    justify-content:flex-end;
+}
+.box_status p {
+    padding: 15px 20px;
+    margin: 0;
+		text-align:center;
+}
+
+.box_status form {
+	padding:  0em 0em;
+}
+
+.box_status th {
+	text-align:center;
+    padding: 0em 1.5em;
+}
+
+.box_status table {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
 .box_order {
 		display: inline-block; /* インラインブロック化 */
 		vertical-align: top;   /* 上端を揃える */
@@ -53,6 +103,7 @@
 .box30 {
 		display: inline-block; /* インラインブロック化 */
 		vertical-align: top;   /* 上端を揃える */
+		min-width: 200px;
 		min-height: 250px;
     margin: 1em 0.5em;
     background: #f1f1f1;
@@ -70,7 +121,7 @@
     letter-spacing: 0.05em;
 }
 .box30 p {
-    padding: 15px 20px;
+    padding: 15px 5spx;
     margin: 0;
 		text-align:center;
 }

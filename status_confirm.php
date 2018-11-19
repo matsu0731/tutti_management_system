@@ -175,11 +175,16 @@ form{
                             <input type="submit" value="追加注文">
                             </form>
                             -->
+
                             <?php
                             for($i=0;$i<$cnt['ord'];$i++){
-                                print("<h3>注文ID</h3>");
-																print("<h2>" . $order_id[$i] . "</h2>");?>
+																print('<div class="box_status">');
+                                print('<div class="box-title">注文ID：'.$order_id[$i] .'');?>
 															<button type="button" onclick="location.href='edit.php?order_id=<?php print(htmlspecialchars($order_id[$i], ENT_QUOTES));?>'">注文内容編集</button>
+
+
+
+														</div>
                                 <?php //注文番号ごとにバックグラウンドカラー変更
                                 print("<table width=\"100%\"><tr>
                                 <th scope=\"col\">商品名</th>
@@ -223,24 +228,26 @@ form{
                               }
                               print("</table>");
                               ?>
-                              <div class="parent">
-                              <?php if($order[$i]["uncookedflag"]=="未調理"){?>
-                              <h3 style="font-size:12px">いずれかが未調理のため全配達完了できません。</h3>
-                              <?php }else if($order[$i]["uncookedflag"]=="調理完了"){?>
-                              <div class="child2">
-                              <form action="" method="post">
-                              <input type="hidden" name="del" value="alldone" >
-                              <input type="hidden" name="order_id" value="<?php print($order_id[$i]); ?>" >
-                              <input type="submit" value="全配達完了"></form>
-                              </div>
-                              <?php }?>
-                              <div class="child2">
-                              <form action="" method="post">
-                              <input type="hidden" name="del" value="allundone" >
-                              <input type="hidden" name="order_id" value="<?php print($order_id[$i]); ?>" >
-                              <input type="submit" value="全配達取消"></form>
-                              </div>
-                              </div>
+
+															<div class="flex">
+
+															<?php if($order[$i]["uncookedflag"]=="未調理"){?>
+															<h3 style="font-size:12px">いずれかが未調理のため全配達完了できません。</h3>
+															<?php }else if($order[$i]["uncookedflag"]=="調理完了"){?>
+
+															<form action="" method="post">
+															<input type="hidden" name="del" value="alldone" >
+															<input type="hidden" name="order_id" value="<?php print($order_id[$i]); ?>" >
+															<input type="submit" value="全配達完了"></form>
+															<?php }?>
+
+															<form action="" method="post">
+															<input type="hidden" name="del" value="allundone" >
+															<input type="hidden" name="order_id" value="<?php print($order_id[$i]); ?>" >
+															<input type="submit" value="全配達取消"></form>
+														</div>
+
+														</div>
                             <?php
                             }
                             ?>
