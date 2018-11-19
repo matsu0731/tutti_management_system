@@ -29,7 +29,7 @@
 								$_POST['update']= NULL;
 							}
 
-							$sql1 = sprintf('SELECT order_id, seat_num FROM history WHERE cooking_status = 0 AND item_id = 1 ORDER BY history_id DESC');
+							$sql1 = sprintf('SELECT order_id, seat_num FROM history WHERE cooking_status = 0 AND item_id = 1 ORDER BY history_id');
 							$recordSet1 = mysqli_query($db, $sql1);
 
 							?>
