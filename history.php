@@ -29,7 +29,7 @@
 							$page = max($page, 1);
 
 							//最終ページを取得
-							$sql = 'SELECT COUNT(*) AS cnt FROM history';
+							$sql = 'SELECT COUNT(*) AS cnt FROM history WHERE quantity>0 AND order_id!=0';
 							$recordSet = mysqli_query($db, $sql);
 							$table = mysqli_fetch_assoc($recordSet);
 							$maxPage = ceil($table['cnt'] / 30);
@@ -38,7 +38,7 @@
 							$start = ($page - 1) * 30;
 							$recordSet = mysqli_query($db, 'SELECT m.history_id, m.order_id, m.customer_id, m.seat_num, i.item_name, i.type, m.value, m.quantity, m.created, m.modified, m.payment_status
 							                                FROM history m, items i
-																							WHERE m.item_id = i.item_id AND m.quantity>0
+																							WHERE m.item_id = i.item_id AND m.quantity>0 AND m.order_id!=0
 																							ORDER BY m.order_id DESC
 																							LIMIT ' . $start . ', 30
 							                                ');
