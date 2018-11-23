@@ -44,6 +44,14 @@
 									<div class="box30">
     								<div class="box-title">席番号：<?php print(htmlspecialchars($table1['seat_num'])); ?></div>
 										<p>注文ID：<?php print(htmlspecialchars($table1['order_id'])); ?></p>
+
+										<?php
+										$sql_comment = sprintf('SELECT comment FROM history WHERE order_id="%d" AND item_id=1', $table1['order_id']);
+										$commentSet = mysqli_query($db, $sql_comment);
+										$comment = mysqli_fetch_assoc($commentSet);
+										?>
+										備考：<?php print(htmlspecialchars($comment['comment'], ENT_QUOTES));?>
+
 										<table width="100%">
 											<tr>
 												<th scope="col">商品名</th>
@@ -63,7 +71,6 @@
 										<?php
 											}
 										}?>
-
 										</table>
 
 											<form action="orderviewer.php" method="post">

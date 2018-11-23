@@ -119,9 +119,14 @@
 							<?php $foodcount++; }
 						} ?>
 						</ul>
+
+						<h3>備考</h3>
+						<?php print($_SESSION['order']['comment']);?>
 							<?php
-
-
+								$sql_comment = sprintf('UPDATE history SET comment = "%s" WHERE item_id=1 AND order_id = %d',
+																				mysqli_real_escape_string($db, $_SESSION['order']['comment']),
+																				mysqli_real_escape_string($db, $order_id['MAX(order_id) + 1']));
+								mysqli_query($db, $sql_comment) or die(mysqli_error($db));
 
 							#座席情報更新
 							$sql = sprintf('UPDATE seat_status SET status = 1, customer_id = "%d" WHERE seat_number = "%d"', $customer_id['MAX(customer_id) + 1'], $seat_num);

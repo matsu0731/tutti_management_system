@@ -137,6 +137,13 @@
 							<?php $foodcount++; }
 						} ?>
 					</ul>
+					<h3>備考</h3>
+					<?php print($_SESSION['order_add']['comment']);?>
+						<?php
+							$sql_comment = sprintf('UPDATE history SET comment = "%s" WHERE item_id=1 AND order_id = %d',
+																			mysqli_real_escape_string($db, $_SESSION['order_add']['comment']),
+																			mysqli_real_escape_string($db, $order_id['MAX(order_id) + 1']));
+							mysqli_query($db, $sql_comment) or die(mysqli_error($db));?>
 						</article>
 
 					</div>

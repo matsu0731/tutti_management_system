@@ -121,9 +121,13 @@
     letter-spacing: 0.05em;
 }
 .box30 p {
-    padding: 15px 5spx;
+    padding: 0px 0px;
     margin: 0;
 		text-align:center;
+}
+.box30 h3 {
+    padding: 0px 0px;
+    margin: 0;
 }
 .box30 form {
 		width: 100%;

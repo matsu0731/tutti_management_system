@@ -46,7 +46,7 @@
 
 							<h2>新規注文</h2>
 
-							<form action="" method="post">
+							<form action="" method="post" onsubmit="return false;">
 
 							<!-- <h3>お客様ID</h3>
 							<p></p>
@@ -130,7 +130,10 @@
 							</ul>
 						</div>
 						<p></p>
-							<input type="submit" value="新規注文" />
+						<h3>備考（最大15字）</h3>
+							<input type="text" name="comment" maxlength="15">
+						<p></p>
+							<button type="button" name="comment" onclick="submit();">新規注文</button>
 							</form>
 						</article>
 

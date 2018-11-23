@@ -54,7 +54,7 @@
 								<p class="error">*少なくとも一つ以上商品を注文してください</p>
 							<?php endif; ?>
 
-							<form action="" method="post">
+							<form action="" method="post" onsubmit="return false;">
 
 							<h3>席番号</h3>
 
@@ -122,7 +122,11 @@
 							</ul>
 						</div>
 							<p></p>
-							<input type="submit" value="追加注文" />
+							<h3>備考（最大15字）</h3>
+								<input type="text" name="comment" maxlength="15">
+							<p></p>
+								<button type="button" name="comment" onclick="submit();">追加注文</button>
+
 							</form>
 						</article>
 
